@@ -21,4 +21,8 @@ class Floor(width: Int, height: Int)(aPosition: Vector2D = (0, 0)) extends RichG
   }
   
   def pared = Semiplane(aPosition, Vector2D(0, -1))
+
+  def puntoEstaDetras(aPoint: Vector2D) = {
+    pared.puntoEstaDetras(aPoint)
+  }
 }
