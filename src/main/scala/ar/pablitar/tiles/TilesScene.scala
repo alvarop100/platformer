@@ -5,7 +5,7 @@ import ar.pablitar.vainilla.appearances.Camera
 import ar.pablitar.vainilla.commons.math.Vector2D
 import ar.pablitar.tiles.components.Floor
 import ar.pablitar.vainilla.commons.components.CameraKeyboardMover
-import ar.pablitar.cannonball.Character
+import ar.pablitar.tiles.components.Character
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
