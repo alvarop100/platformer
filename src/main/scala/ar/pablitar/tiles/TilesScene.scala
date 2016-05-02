@@ -9,7 +9,7 @@ import ar.pablitar.tiles.components.Character
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
-  val floor = new Floor(10,3)(Vector2D(-300, 300))
+  val floor = new Floor(15,3)(Vector2D(-300, 300))
   this.addComponent(floor)
   this.addComponent(new Character)
 }

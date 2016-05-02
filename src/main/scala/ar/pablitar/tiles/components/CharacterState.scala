@@ -10,17 +10,16 @@ trait CharacterState {
   def stopJump(character: Character) = {}
 
   def update(character: Character, state: DeltaState) = {
-    character.getAppearance.update(state.getDelta)
     character.applySpeed(state)
     character.applyAcceleration(state)
   }
 
-  val acceleration:Option[Vector2D] = Some(Vector2D(0, 500))
+  val acceleration:Option[Vector2D] = Some(Vector2D(0, 2000))
 }
 
 case object Grounded extends CharacterState {
   override def jump(character: Character) = {
-    character.speed += Vector2D(0, -300)
+    character.speed += Vector2D(0, -800)
     character.characterState = Jumping(character.getY()) 
   }
 }
@@ -31,7 +30,7 @@ case object Falling extends CharacterState {
   }
 }
 case class Jumping(startingHeight: Double) extends CharacterState {
-  val maxHeight = 200
+  val maxHeight = 250
   
   override def stopJump(character: Character) = {
     character.characterState = Falling
@@ -44,5 +43,5 @@ case class Jumping(startingHeight: Double) extends CharacterState {
     }
   }
   
-  override val acceleration = Some(Vector2D(0, 200))
+  override val acceleration = Some(Vector2D(0, 1000))
 }
