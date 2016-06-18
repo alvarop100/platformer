@@ -42,4 +42,14 @@ object Resources {
     (360, 855, 81, 168))
 
   val jumpingSpritesLeft = jumpingSpritesRight.map(_.flipHorizontally())
+  
+  val bolt = Seq[Sprite](
+    (2376, 27, 45, 24),
+    (2376, 63, 45, 24),
+    (2376, 102, 45, 24),
+    (2376, 140, 45, 24)
+  )
+  
+  val boltAnimation = WorldSpaceAnimation(new Animation(0.1, bolt:_*))(_:Camera)
+  
 }

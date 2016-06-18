@@ -24,6 +24,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   override def update(state: DeltaState) = {
     this.getScene.floors.foreach(this.checkCollisionWith(_, state))
+    cooldownElapsed += state.getDelta
     this.checkKeys(state)
     this.characterState.update(this, state)
     this.setAppearanceFor(this.characterState)
@@ -49,6 +50,10 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
     if (state.isKeyBeingHold(Key.RIGHT)) {
       this.speed.x1 = 500
       this.facingDirection = Orientation.WEST
+    }
+    
+    if (state.isKeyPressed(Key.S)) {
+      this.fireIfCooledDown()
     }
 
     if (state.isKeyPressed(Key.SPACE)) {
@@ -79,5 +84,25 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
       case Jumping(_) => airAppearance
       case Falling => airAppearance
     })
+  }
+  
+  //TODO: Reuse cooldown behaviour
+  
+  val fireCooldownTime = 0.1
+  var cooldownElapsed = fireCooldownTime
+
+  def fireIfCooledDown() = {
+    if(cooldownElapsed >= fireCooldownTime) {
+      this.fire()
+      cooldownElapsed = 0
+    }
+  }
+
+  def fire() = {
+    this.getScene.addComponent(new Bolt(this.busterPosition, this.facingDirection))
+  }
+
+  def busterPosition = {
+    this.center(this.facingDirection)
   }
 }

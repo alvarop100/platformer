@@ -14,7 +14,9 @@ class TilesScene extends GameScene {
   val floors = Seq(
     new Floor(15, 3)(Vector2D(-300, 300)),
     new Floor(15, 1)(Vector2D(700, 500)),
-    new Floor(15, 1)(Vector2D(1000, 200)))
+    new Floor(15, 1)(Vector2D(1000, 250)),
+    new Floor(15, 1)(Vector2D(1700, 50)),
+    new Floor(15, 1)(Vector2D(1500, 150)))
   floors.foreach(this.addComponent(_))
   val character = new Character
   this.addComponent(character)
