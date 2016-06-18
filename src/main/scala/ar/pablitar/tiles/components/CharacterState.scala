@@ -8,6 +8,8 @@ trait CharacterState {
   def jump(character: Character) = {}
 
   def stopJump(character: Character) = {}
+  
+  def falling(character: Character) = {}
 
   def update(character: Character, state: DeltaState) = {
     character.applySpeed(state)
@@ -15,12 +17,17 @@ trait CharacterState {
   }
 
   val acceleration:Option[Vector2D] = Some(Vector2D(0, 2000))
+
 }
 
 case object Grounded extends CharacterState {
   override def jump(character: Character) = {
     character.speed += Vector2D(0, -800)
     character.characterState = Jumping(character.getY()) 
+  }
+  
+  override def falling(character: Character) = {
+    character.characterState = Falling
   }
 }
 

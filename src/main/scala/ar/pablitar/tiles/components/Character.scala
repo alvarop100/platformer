@@ -4,43 +4,51 @@ import com.uqbar.vainilla.DeltaState
 import com.uqbar.vainilla.events.constants.Key
 import ar.pablitar.tiles.Resources
 import ar.pablitar.tiles.TilesScene
+import ar.pablitar.tiles.appearances.AirAppearance
 import ar.pablitar.vainilla.appearances.Camera
 import ar.pablitar.vainilla.commons.components.SpeedyComponent
-import ar.pablitar.vainilla.commons.math.Vector2D
-import ar.pablitar.tiles.appearances.JumpingAppearance
-import ar.pablitar.tiles.appearances.FallingAppearance
+import ar.pablitar.vainilla.commons.math.Orientation
+import ar.pablitar.tiles.appearances.GroundedAppearance
 
 class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene] {
-  val standingAnimation = Resources.standingAnimation(camera)
-  val jumpingAppearance = new JumpingAppearance(this)
-  val fallingAppearance = new FallingAppearance(this)
-  
-  this.setAppearance(standingAnimation)
+  val groundedAppearance = new GroundedAppearance(this)
+  val airAppearance = new AirAppearance(this)
+
+  this.setAppearance(groundedAppearance)
 
   var characterState: CharacterState = Falling
+
+  var facingDirection: Orientation = Orientation.WEST
 
   override def acceleration = characterState.acceleration
 
   override def update(state: DeltaState) = {
-    this.checkCollisionWith(this.getScene.floor, state)
+    this.getScene.floors.foreach(this.checkCollisionWith(_, state))
     this.checkKeys(state)
     this.characterState.update(this, state)
     this.setAppearanceFor(this.characterState)
     this.getAppearance.update(state.getDelta)
+    
+    if(this.getY > 4000) {
+      this.speed = (0, -300)
+      this.position = (0,0)
+    }
   }
 
   this.setZ(20)
 
-  override def height = Resources.standing1.getHeight - 5
-  override def width = Resources.standing1.getWidth
+  override def height = Resources.standing(0).getHeight - 5
+  override def width = Resources.standing(0).getWidth
 
   def checkKeys(state: DeltaState) = {
     speed.x1 = 0
     if (state.isKeyBeingHold(Key.LEFT)) {
       this.speed.x1 = -500
+      this.facingDirection = Orientation.EAST
     }
     if (state.isKeyBeingHold(Key.RIGHT)) {
       this.speed.x1 = 500
+      this.facingDirection = Orientation.WEST
     }
 
     if (state.isKeyPressed(Key.SPACE)) {
@@ -60,14 +68,16 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
       this.speed.x2 = 0
       this.position.x2 = floor.pared.puntoInterno.x2 - this.height
       this.characterState.grounded(this)
+    } else if(this.speed.x2 != 0){
+      this.characterState.falling(this)
     }
   }
 
   def setAppearanceFor(state: CharacterState) = {
     setAppearance(state match {
-      case Grounded => standingAnimation
-      case Jumping(_) => jumpingAppearance
-      case Falling => fallingAppearance
+      case Grounded => groundedAppearance
+      case Jumping(_) => airAppearance
+      case Falling => airAppearance
     })
   }
 }

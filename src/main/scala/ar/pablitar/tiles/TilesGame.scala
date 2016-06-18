@@ -4,8 +4,9 @@ import com.uqbar.vainilla.Game
 import java.awt.Dimension
 
 object TilesGame extends Game {
+
   def getDisplaySize(): Dimension = {
-    new Dimension(800, 600)
+    new Dimension(TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT)
   }
 
   def getTitle(): String = {
