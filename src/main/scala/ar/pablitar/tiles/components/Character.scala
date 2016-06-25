@@ -15,7 +15,7 @@ import java.awt.Color
 import com.uqbar.vainilla.GameComponent
 
 object Character {
-  val firingStateTime = 0.2
+  val firingStateTime = 0.3
 }
 
 class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene] with Oriented {
