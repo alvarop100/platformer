@@ -7,9 +7,10 @@ import com.uqbar.vainilla.appearances.Sprite
 import ar.pablitar.tiles.components.Character
 import com.uqbar.vainilla.appearances.SimpleAppearance
 import ar.pablitar.vainilla.appearances.worldspace.WorldSpaceSimpleAppearance
+import com.uqbar.vainilla.GameComponent
 
 //TODO: Convertir esto en un trait y hacerlo genérico, que no dependa de Character
-abstract class MultiAppearance[T <: WorldSpaceAppearance](val c: Character) extends WorldSpaceAppearance {
+abstract class MultiAppearance[T <: WorldSpaceAppearance, C <: GameComponent[_]](val c: C) extends WorldSpaceAppearance {
   def appearances: Seq[T]
 
   lazy val height: Double = {
@@ -28,7 +29,9 @@ abstract class MultiAppearance[T <: WorldSpaceAppearance](val c: Character) exte
     appearanceFor(c).update(delta)
   }
 
-  def appearanceFor(c: Character): T
+  def appearanceFor(c: C): T
   
   implicit def simpleToWorldSpace(sp: SimpleAppearance[_]) = WorldSpaceSimpleAppearance(sp)
+  
+  def reset() = {}
 }

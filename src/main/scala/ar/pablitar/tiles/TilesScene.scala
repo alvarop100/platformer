@@ -12,7 +12,7 @@ class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
   val floor = new Floor(15, 3)(Vector2D(-300, 300))
   val floors = Seq(
-    new Floor(15, 3)(Vector2D(-300, 300)),
+    new Floor(15, 3)(Vector2D(-300, 500)),
     new Floor(15, 1)(Vector2D(700, 500)),
     new Floor(15, 1)(Vector2D(1000, 250)),
     new Floor(15, 1)(Vector2D(1700, 50)),
@@ -20,6 +20,6 @@ class TilesScene extends GameScene {
   floors.foreach(this.addComponent(_))
   val character = new Character
   this.addComponent(character)
-  this.addComponent(new CameraFollow(mainCamera, () => character.center,
+  this.addComponent(new CameraFollow(mainCamera, () => character.center(),
     Vector2D(-TilesApp.DISPLAY_WIDTH / 2, -TilesApp.DISPLAY_HEIGHT / 2)))
 }

@@ -8,7 +8,7 @@ import ar.pablitar.tiles.components.Character
 import ar.pablitar.vainilla.appearances.Camera
 import ar.pablitar.vainilla.appearances.WorldSpaceAppearance
 
-class SimpleAirAppearance(c: Character, sprites:Seq[Sprite])(implicit val camera: Camera) extends MultiAppearance[WorldSpaceAppearance](c) {
+class SimpleAirAppearance(c: Character, sprites:Seq[Sprite])(implicit val camera: Camera) extends MultiAppearance[WorldSpaceAppearance, Character](c) {
   
   override val appearances = sprites.map(simpleToWorldSpace)
 
