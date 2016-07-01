@@ -53,7 +53,7 @@ object Resources {
     (2072, 477, 106, 147),
     (2193, 483, 96, 147))
 
-  def orientedAnimationFactory(mean: Double, sprites: Seq[Sprite], eastOriented: Boolean = true) = {
+  def orientedAnimationFactory(mean: Double, sprites: Seq[Sprite], eastOriented: Boolean = false) = {
     val originals: AnimFactory = (mean, sprites)
     Map(
       Orientation.EAST -> {
@@ -93,6 +93,6 @@ object Resources {
 
   val firingAnimation = orientedAnimationFactory(Character.firingStateTime / firing.length, firing)
 
-  val boltAnimation = orientedAnimationFactory(0.1, bolt, false)
+  val boltAnimation = orientedAnimationFactory(0.1, bolt)
 
 }

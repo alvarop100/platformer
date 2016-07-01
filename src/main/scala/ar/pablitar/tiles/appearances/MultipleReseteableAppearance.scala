@@ -4,10 +4,11 @@ import ar.pablitar.vainilla.appearances.worldspace.WorldSpaceAnimation
 import ar.pablitar.vainilla.appearances.WorldSpaceAppearance
 import ar.pablitar.tiles.components.Character
 import com.uqbar.vainilla.GameComponent
+import ar.pablitar.vainilla.appearances.worldspace.ReseteableAppearance
 
-trait MultiAnimationAppearance[T <: WorldSpaceAnimation, C <: GameComponent[_]] {
+trait MultipleReseteableAppearance[T <: ReseteableAppearance, C <: GameComponent[_]] extends ReseteableAppearance {
   this: MultiAppearance[T, C] =>
-  var lastAnimation: WorldSpaceAnimation = null
+  var lastAnimation: T = null.asInstanceOf[T]
 
   override def update(delta: Double) {
     val animation = appearanceFor(c)
