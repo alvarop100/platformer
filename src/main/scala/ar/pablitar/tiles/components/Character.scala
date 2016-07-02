@@ -85,7 +85,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
       this.speed.x2 = 0
       this.position.x2 = floor.pared.puntoInterno.x2 - this.height
       this.characterState.grounded(this)
-    } else if (this.speed.x2 != 0) {
+    } else if (this.speed.x2 > 0) {
       this.characterState.falling(this)
     }
   }
