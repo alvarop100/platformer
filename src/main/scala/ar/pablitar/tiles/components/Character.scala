@@ -115,7 +115,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
   //TODO: Reuse cooldown behaviour
 
   val fireCooldownTime = 0.05
-  var cooldownElapsed = fireCooldownTime
+  var cooldownElapsed = Character.firingStateTime
 
   def fireIfCooledDown() = {
     if (cooldownElapsed >= fireCooldownTime) {

@@ -82,12 +82,20 @@ object Resources {
   val runningShootingAnimation = orientedAnimationFactory(0.04, runningShooting)
 
   val jumpingSpritesRight = Seq[Sprite](
-    (15, 855, 78, 153),
-    (134, 855, 70, 168),
+    (15, 834, 78, 174),
+    (134, 849, 70, 174),
     (255, 855, 69, 174),
-    (360, 855, 81, 168))
+    (360, 849, 81, 174))
 
   val jumpingSpritesLeft = jumpingSpritesRight.map(_.flipHorizontally())
+  
+  val jumpingShootingSpritesRight = Seq[Sprite](
+    (2655, 1578, 102, 174),
+    (2775, 1584, 102, 174),
+    (2895, 1584, 101, 174),
+    (3015, 1575, 120, 174))
+    
+    val jumpingShootingSpritesLeft = jumpingShootingSpritesRight.map(_.flipHorizontally())
 
   val bolt = Seq[Sprite](
     (2376, 27, 45, 24),
