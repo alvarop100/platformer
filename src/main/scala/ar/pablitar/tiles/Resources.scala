@@ -39,7 +39,6 @@ object Resources {
     (1515, 66, 105, 147), (1650, 63, 105, 147), (1785, 60, 105, 147))
 
   val running = Seq[Sprite](
-    (7, 477, 102, 147),
     (143, 480, 103, 147),
     (270, 471, 121, 147),
     (435, 474, 117, 147),
@@ -53,19 +52,34 @@ object Resources {
     (2072, 477, 106, 147),
     (2193, 483, 96, 147))
 
-  def orientedAnimationFactory(mean: Double, sprites: Seq[Sprite], eastOriented: Boolean = false) = {
+  val runningShooting = Seq[Sprite](
+    (15, 1620, 135, 147),
+    (165, 1622, 150, 147),
+    (345, 1629, 144, 147),
+    (510, 1626, 161, 147),
+    (900, 1635, 132, 147),
+    (1050, 1635, 117, 147),
+    (1200, 1632, 147, 147),
+    (1365, 1632, 150, 147),
+    (1530, 1628, 159, 147),
+    (1875, 1632, 150, 147),
+    (2190, 1632, 138, 147),
+    (2355, 1638, 123, 147))
+
+  def orientedAnimationFactory(mean: Double, sprites: Seq[Sprite], eastOriented: Boolean = false): Map[Orientation, AnimFactory] = {
     val originals: AnimFactory = (mean, sprites)
     Map(
       Orientation.EAST -> {
         if (eastOriented) originals else originals.andThen(_.flipHorizontally())
       },
       Orientation.WEST -> {
-        if(eastOriented) originals.andThen(_.flipHorizontally()) else originals
+        if (eastOriented) originals.andThen(_.flipHorizontally()) else originals
       })
   }
 
   val standingAnimation = orientedAnimationFactory(0.15, standing)
   val runningAnimation = orientedAnimationFactory(0.04, running)
+  val runningShootingAnimation = orientedAnimationFactory(0.04, runningShooting)
 
   val jumpingSpritesRight = Seq[Sprite](
     (15, 855, 78, 153),

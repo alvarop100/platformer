@@ -7,8 +7,7 @@ import com.uqbar.vainilla.GameComponent
 import ar.pablitar.tiles.components.Oriented
 
 
-trait OrientationBasedMultiAppearance[T <: WorldSpaceAppearance, C <: GameComponent[_] with Oriented] {
-  this: MultiAppearance[T, C] =>
+trait OrientationBasedMultiAppearance[T <: WorldSpaceAppearance, C <: GameComponent[_] with Oriented] extends MultiAppearance[T, C] {
   def appearanceFor(c: C): T = {
     c.facingDirection match {
       case Orientation.EAST => appearances(0)

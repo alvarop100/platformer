@@ -8,12 +8,13 @@ import ar.pablitar.tiles.components.Character
 import ar.pablitar.vainilla.appearances.Camera
 import ar.pablitar.vainilla.appearances.WorldSpaceAppearance
 
-class SimpleAirAppearance(c: Character, sprites:Seq[Sprite])(implicit val camera: Camera) extends MultiAppearance[WorldSpaceAppearance, Character](c) {
+class SimpleAirAppearance(val component: Character, sprites:Seq[Sprite])(implicit val camera: Camera)
+  extends MultiAppearance[WorldSpaceAppearance, Character] {
   
   override val appearances = sprites.map(simpleToWorldSpace)
 
   def doCopy: Appearance = {
-    new SimpleAirAppearance(c, sprites)
+    new SimpleAirAppearance(component, sprites)
   }
 
   def appearanceFor(c: Character): WorldSpaceAppearance = {

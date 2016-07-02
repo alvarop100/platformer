@@ -12,15 +12,27 @@ import ar.pablitar.vainilla.commons.math.Orientation._
 import ar.pablitar.tiles.Resources.AnimFactory
 import com.uqbar.vainilla.GameComponent
 import ar.pablitar.tiles.components.Oriented
+import ar.pablitar.vainilla.appearances.worldspace.ReseteableAppearance
 
-//TODO: Encontrar alguna forma de reutilizar orientation, teniendo en cuenta que multianimationappearance resetea las animaciones al mismo nivel. 
-class SimpleOrientedAppearance[T <: WorldSpaceAppearance, C <: GameComponent[_] with Oriented](c: C, east: T, west: T)
-(implicit val camera: Camera) extends MultiAppearance[T, C](c) with OrientationBasedMultiAppearance[T, C] {
+class SimpleOrientedAppearance[T <: ReseteableAppearance, C <: GameComponent[_] with Oriented]
+(val component: C, factories: Map[Orientation,  Camera => T])
+(implicit val camera: Camera) extends OrientationBasedMultiAppearance[T, C] with ReseteableAppearance{
   
-  override val appearances = Vector(east, west)
+  val appearancesMap = factories.mapValues(_.apply(camera))
+  
+  override val appearances = Vector(appearancesMap(EAST), appearancesMap(WEST))
 
   def doCopy: Appearance = {
-    new SimpleOrientedAppearance(c, east, west)
+    new SimpleOrientedAppearance(component, factories)
+  }
+  
+  override def reset() = {
+    appearanceFor(component).reset()
   }
 
 }
+
+//TODO: Implicit para construir uno de estos fácilmente
+//object OrientedImplicits {
+//  
+//}

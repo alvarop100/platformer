@@ -8,13 +8,13 @@ import ar.pablitar.tiles.components.Character
 import ar.pablitar.vainilla.appearances.Camera
 import ar.pablitar.vainilla.appearances.WorldSpaceAppearance
 
-class AirAppearance(c: Character)(implicit val camera: Camera) extends MultiAppearance[SimpleAirAppearance, Character](c)
+class AirAppearance(val component: Character)(implicit val camera: Camera) extends MultiAppearance[SimpleAirAppearance, Character]
     with OrientationBasedMultiAppearance[SimpleAirAppearance, Character] {
   override val appearances = Seq(
-    new SimpleAirAppearance(c, Resources.jumpingSpritesLeft),
-    new SimpleAirAppearance(c, Resources.jumpingSpritesRight))
+    new SimpleAirAppearance(component, Resources.jumpingSpritesLeft),
+    new SimpleAirAppearance(component, Resources.jumpingSpritesRight))
 
   def doCopy: Appearance = {
-    new AirAppearance(c)
+    new AirAppearance(component)
   }
 }

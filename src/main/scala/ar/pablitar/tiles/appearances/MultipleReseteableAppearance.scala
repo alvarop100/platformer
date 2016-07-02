@@ -6,20 +6,23 @@ import ar.pablitar.tiles.components.Character
 import com.uqbar.vainilla.GameComponent
 import ar.pablitar.vainilla.appearances.worldspace.ReseteableAppearance
 
-trait MultipleReseteableAppearance[T <: ReseteableAppearance, C <: GameComponent[_]] extends ReseteableAppearance {
-  this: MultiAppearance[T, C] =>
-  var lastAnimation: T = null.asInstanceOf[T]
+trait MultipleReseteableAppearance[T <: ReseteableAppearance, C <: GameComponent[_]] extends MultiAppearance[T, C] with ReseteableAppearance {
+  var lastAppearance: T = null.asInstanceOf[T]
 
   override def update(delta: Double) {
-    val animation = appearanceFor(c)
-    if (animation != lastAnimation) {
-      lastAnimation = animation
-      animation.reset()
+    val newAppearance = appearanceFor(component)
+    if (newAppearance != lastAppearance) {
+      onAppearanceChanged(lastAppearance, newAppearance)
+      lastAppearance = newAppearance
     }
-    appearanceFor(c).update(delta)
+    appearanceFor(component).update(delta)
   }
   
+  def onAppearanceChanged(lastAppearance: T, newAppearance: T): Unit = {
+     newAppearance.reset()
+  }
+ 
   override def reset() = {
-    appearanceFor(c).reset()
+    appearanceFor(component).reset()
   }
 }

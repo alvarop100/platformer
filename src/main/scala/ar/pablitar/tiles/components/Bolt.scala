@@ -19,7 +19,7 @@ class Bolt(initialPosition: Vector2D, orientation: Orientation)(implicit val cam
   
   speed = orientation.versor * speedScalar
   
-  this.setAppearance(new SimpleOrientedAppearance(this, Resources.boltAnimation(EAST)(camera), Resources.boltAnimation(WEST)(camera)))
+  this.setAppearance(new SimpleOrientedAppearance(this, Resources.boltAnimation))
   
   override def update(state: DeltaState) = {
     if(this.position.distanceTo(initialPosition) > maxDistance) {
