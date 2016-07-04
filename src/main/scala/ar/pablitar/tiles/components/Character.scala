@@ -13,6 +13,7 @@ import java.awt.Graphics2D
 import ar.pablitar.vainilla.appearances.worldspace.Rectangle
 import java.awt.Color
 import com.uqbar.vainilla.GameComponent
+import ar.pablitar.tiles.appearances.CharacterAppearance
 
 object Character {
   val firingStateTime = 0.3
@@ -22,10 +23,9 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   import Character._
 
-  val groundedAppearance = new GroundedAppearance(this)
-  val airAppearance = new AirAppearance(this)
+  val charAppearance = new CharacterAppearance(this)
 
-  this.setAppearance(groundedAppearance)
+  this.setAppearance(charAppearance)
 
   var characterState: CharacterState = Falling
 
@@ -33,26 +33,28 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   override def acceleration = characterState.acceleration
 
+  var frame = 0l
+
   override def update(state: DeltaState) = {
-    this.getScene.floors.foreach(this.checkCollisionWith(_, state))
+    this.checkCollisionWithFloors(state)
     cooldownElapsed = (cooldownElapsed + state.getDelta).min(firingStateTime)
     this.checkKeys(state)
     this.characterState.update(this, state)
-    this.setAppearanceForState()
     this.getAppearance.update(state.getDelta)
 
     if (this.getY > 4000) {
       this.speed = (0, 0)
       this.position = (0, 0)
     }
+    frame += 1
   }
 
   this.setZ(20)
 
   override def height = Resources.standing(0).getHeight - 5
   override def width = Resources.standing(0).getWidth
-  
-//  override def appearanceCenter = (width / 2, height)
+
+  //  override def appearanceCenter = (width / 2, height)
 
   def checkKeys(state: DeltaState) = {
     speed.x1 = 0
@@ -78,37 +80,36 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
     }
   }
 
-  def checkCollisionWith(floor: Floor, state: DeltaState) = {
+  def checkCollisionWith(floor: Floor, state: DeltaState): Boolean = {
     val afterPosition = this.positionAfterSpeed(state)
-    if (!floor.puntoEstaDetras(this.bottomLeft()) && floor.puntoEstaDetras(this.bottomLeft(afterPosition))
-      && this.bottomRight().x1 > floor.topLeft().x1 && this.bottomLeft().x1 < floor.topRight().x1) {
+    if ( //Rango horizontal
+    this.bottomRight().x1 > floor.topLeft().x1 && this.bottomLeft().x1 < floor.topRight().x1 &&
+      //Colisión vertical
+      ((!floor.puntoEstaDetras(this.position) && floor.puntoEstaDetras(afterPosition))
+        || floor.pared.puntoInterno.x2 == this.position.x2)) {
+
       this.speed.x2 = 0
-      this.position.x2 = floor.pared.puntoInterno.x2 - this.height
+      this.setY(floor.pared.puntoInterno.x2)
       this.characterState.grounded(this)
-    } else if (this.speed.x2 > 20) {
+      true
+    } else {
+      false
+    }
+  }
+
+  def checkCollisionWithFloors(state: DeltaState) = {
+    if (!this.getScene.floors.exists(this.checkCollisionWith(_, state))) {
       this.characterState.falling(this)
     }
   }
 
-  def setAppearanceForState(state: CharacterState = this.characterState) = {
-    setAppearance(this.currentAppearance(state))
-  }
-
-  def currentAppearance(state: CharacterState = this.characterState) = {
-    state match {
-      case Grounded => groundedAppearance
-      case Jumping(_) => airAppearance
-      case Falling => airAppearance
-    }
-  }
-  
   override def render(graphics: Graphics2D) = {
     super.render(graphics)
     val self = this
     val debugRect = new Rectangle(7, 7, Color.YELLOW)
-    debugRect.render(new GameComponent(){
+    debugRect.render(new GameComponent() {
       override def getX() = self.getX()
-      override def getY() = self.getY() 
+      override def getY() = self.getY()
     }, graphics)
   }
 
@@ -123,11 +124,11 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
       cooldownElapsed = 0
     }
   }
-  
+
   override def appearanceCenter = (this.width / 2, this.height)
 
   def fire() = {
-    groundedAppearance.resetFiring()
+    charAppearance.resetFiring()
     this.getScene.addComponent(new Bolt(this.busterPosition, this.facingDirection))
   }
 

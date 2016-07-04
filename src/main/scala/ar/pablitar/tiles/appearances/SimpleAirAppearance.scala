@@ -1,9 +1,8 @@
 package ar.pablitar.tiles.appearances
 
-import scala.Vector
 import com.uqbar.vainilla.appearances.Appearance
 import com.uqbar.vainilla.appearances.Sprite
-import ar.pablitar.tiles.Resources
+
 import ar.pablitar.tiles.components.Character
 import ar.pablitar.vainilla.appearances.Camera
 import ar.pablitar.vainilla.appearances.WorldSpaceAppearance
