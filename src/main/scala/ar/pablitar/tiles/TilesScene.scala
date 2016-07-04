@@ -10,10 +10,9 @@ import ar.pablitar.tiles.components.CameraFollow
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
-  val floor = new Floor(15, 3)(Vector2D(-300, 300))
   val floors = Seq(
     new Floor(15, 3)(Vector2D(-300, 500)),
-    new Floor(15, 1)(Vector2D(700, 500)),
+    new Floor(15, 1)(Vector2D(800, 500)),
     new Floor(15, 1)(Vector2D(1000, 250)),
     new Floor(15, 1)(Vector2D(1700, 50)),
     new Floor(15, 1)(Vector2D(1500, 150)))

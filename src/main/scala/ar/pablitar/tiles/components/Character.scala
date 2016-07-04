@@ -33,8 +33,6 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   override def acceleration = characterState.acceleration
 
-  var frame = 0l
-
   override def update(state: DeltaState) = {
     this.checkCollisionWithFloors(state)
     cooldownElapsed = (cooldownElapsed + state.getDelta).min(firingStateTime)
@@ -46,13 +44,12 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
       this.speed = (0, 0)
       this.position = (0, 0)
     }
-    frame += 1
   }
 
   this.setZ(20)
 
   override def height = Resources.standing(0).getHeight - 5
-  override def width = Resources.standing(0).getWidth
+  override def width = Resources.standing(0).getWidth * 0.5
 
   //  override def appearanceCenter = (width / 2, height)
 
