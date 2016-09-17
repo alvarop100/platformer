@@ -73,7 +73,7 @@ class FloorCreator(implicit camera: Camera) extends RichGameComponent[TilesScene
       ((worldPosition - startingPosition).abs / tileSize) + (1,1)
 
     val floor = new Floor(
-        sizeVector.x1.toInt.max(1), sizeVector.x2.toInt.max(1)
+        sizeVector.x1.toInt, sizeVector.x2.toInt
      )(
          (worldPosition.x1.min(startingPosition.x1), worldPosition.x2.min(startingPosition.x2))
      )

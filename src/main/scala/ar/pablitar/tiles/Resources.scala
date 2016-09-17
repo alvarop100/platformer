@@ -116,5 +116,7 @@ object Resources {
   val firingAnimation = orientedAnimationFactory(Character.firingStateTime / firing.length, firing)
 
   val boltAnimation = orientedAnimationFactory(0.1, bolt)
+  
+  val citySprite = Sprite.fromImage("city.png")
 
 }
