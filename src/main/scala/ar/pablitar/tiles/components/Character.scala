@@ -23,6 +23,8 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   import Character._
 
+  override val cameraForDebug = camera
+  
   val charAppearance = new CharacterAppearance(this)
 
   this.setAppearance(charAppearance)
@@ -102,12 +104,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   override def render(graphics: Graphics2D) = {
     super.render(graphics)
-    val self = this
-    val debugRect = new Rectangle(7, 7, Color.YELLOW)
-    debugRect.render(new GameComponent() {
-      override def getX() = self.getX()
-      override def getY() = self.getY()
-    }, graphics)
+    renderDebugRectangleOnPosition(graphics)
   }
 
   //TODO: Reuse cooldown behaviour
