@@ -9,8 +9,8 @@ import ar.pablitar.tiles.TilesApp
 
 class ScrollingBackground(camera: Camera, sp: Sprite, depth: Int, yPosition: Int) extends RichGameComponent[TilesScene] {
   
-  def offsetX = -camera.position.x1 / (depth / 3)
-  def offsetY = -camera.position.x2 / depth
+  def offsetX = -camera.position.x1 / (depth / 5)
+  def offsetY = -camera.position.x2 / (depth / 5)
   
   val repeats = (((TilesApp.DISPLAY_WIDTH / sp.getWidth).ceil + 2).toInt).max(4)
   

@@ -118,5 +118,7 @@ object Resources {
   val boltAnimation = orientedAnimationFactory(0.1, bolt)
   
   val citySprite = Sprite.fromImage("city.png")
+  val deepCitySprite = Sprite.fromImage("city-deeper.png").scale(0.8)
+  val deepestCitySprite = Sprite.fromImage("city-deepest.png").scale(0.6)
 
 }

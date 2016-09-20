@@ -14,6 +14,7 @@ import ar.pablitar.tiles.components.ScrollingBackground
 import com.uqbar.vainilla.GameComponent
 import com.uqbar.vainilla.appearances.Rectangle
 import java.awt.Color
+import ar.pablitar.tiles.components.Horizon
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
@@ -32,18 +33,21 @@ class TilesScene extends GameScene {
   val floorsCreator = new FloorCreator
   this.addComponent(floorsCreator)
   
-  this.addComponent(new ScrollingBackground(mainCamera, Resources.citySprite,10,150))
+  this.addComponent(new ScrollingBackground(mainCamera, Resources.citySprite,20,180))
+  this.addComponent(new ScrollingBackground(mainCamera, Resources.deepCitySprite,26,150))
+  this.addComponent(new ScrollingBackground(mainCamera, Resources.deepestCitySprite,32,135))
+  this.addComponent(new Horizon(mainCamera, new Color(200, 200, 244), Color.GRAY, 400, 40));
   
-  val sky = new GameComponent()
-  sky.setAppearance(new Rectangle(new Color(200, 200, 244), TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT))
-  sky.setZ(-1000)
-  this.addComponent(sky)
-  
-  val earth = new GameComponent()
-  earth.setAppearance(new Rectangle(Color.GRAY, TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT))
-  earth.setZ(-999)
-  earth.setY(TilesApp.DISPLAY_HEIGHT * 0.7)
-  this.addComponent(earth)
+//  val sky = new GameComponent()
+//  sky.setAppearance(new Rectangle(new Color(200, 200, 244), TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT))
+//  sky.setZ(-1000)
+//  this.addComponent(sky)
+//  
+//  val earth = new GameComponent()
+//  earth.setAppearance(new Rectangle(Color.GRAY, TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT))
+//  earth.setZ(-999)
+//  earth.setY(TilesApp.DISPLAY_HEIGHT * 0.7)
+//  this.addComponent(earth)
   
   def addFloor(floor: Floor) = {
     this.addComponent(floor)
