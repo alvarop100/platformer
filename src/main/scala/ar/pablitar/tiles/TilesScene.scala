@@ -15,6 +15,7 @@ import com.uqbar.vainilla.GameComponent
 import com.uqbar.vainilla.appearances.Rectangle
 import java.awt.Color
 import ar.pablitar.tiles.components.Horizon
+import ar.pablitar.vainilla.commons.components.Bar
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
@@ -34,9 +35,14 @@ class TilesScene extends GameScene {
   this.addComponent(floorsCreator)
   
   this.addComponent(new ScrollingBackground(mainCamera, Resources.citySprite,20,180))
-  this.addComponent(new ScrollingBackground(mainCamera, Resources.deepCitySprite,26,150))
-  this.addComponent(new ScrollingBackground(mainCamera, Resources.deepestCitySprite,32,135))
-  this.addComponent(new Horizon(mainCamera, new Color(200, 200, 244), Color.GRAY, 400, 40));
+  this.addComponent(new ScrollingBackground(mainCamera, Resources.deepCitySprite,26,150,444))
+  this.addComponent(new ScrollingBackground(mainCamera, Resources.deepestCitySprite,32,135, 150))
+  this.addComponent(new Horizon(mainCamera, new Color(200, 200, 244), Color.GRAY, 300, 40));
+  
+  this.addComponent(new Bar[TilesScene]("Cooldown",Color.RED, 20, 20) {
+    def getMaxValue = (Character.firingStateTime * 100).toInt
+    def getCurrentValue = (character.cooldownElapsed * 100).toInt
+  })
   
 //  val sky = new GameComponent()
 //  sky.setAppearance(new Rectangle(new Color(200, 200, 244), TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT))

@@ -7,9 +7,9 @@ import com.uqbar.vainilla.appearances.Sprite
 import java.awt.Graphics2D
 import ar.pablitar.tiles.TilesApp
 
-class ScrollingBackground(camera: Camera, sp: Sprite, depth: Int, yPosition: Int) extends RichGameComponent[TilesScene] {
+class ScrollingBackground(camera: Camera, sp: Sprite, depth: Int, yPosition: Int, initialXOffset:Int = 0) extends RichGameComponent[TilesScene] {
   
-  def offsetX = -camera.position.x1 / (depth / 5)
+  def offsetX = -(camera.position.x1 + initialXOffset) / (depth / 5)
   def offsetY = -camera.position.x2 / (depth / 5)
   
   val repeats = (((TilesApp.DISPLAY_WIDTH / sp.getWidth).ceil + 2).toInt).max(4)
