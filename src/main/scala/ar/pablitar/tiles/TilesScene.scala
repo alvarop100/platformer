@@ -16,6 +16,9 @@ import com.uqbar.vainilla.appearances.Rectangle
 import java.awt.Color
 import ar.pablitar.tiles.components.Horizon
 import ar.pablitar.vainilla.commons.components.Bar
+import ar.pablitar.tiles.components.BuffItem
+import ar.pablitar.tiles.components.GoodType
+import ar.pablitar.tiles.components.BadType
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
@@ -26,6 +29,15 @@ class TilesScene extends GameScene {
     new Floor(15, 1)(Vector2D(1700, 50)),
     new Floor(15, 1)(Vector2D(1500, 150)))
   floors.foreach(this.addComponent(_))
+  val buffs = ArrayBuffer(
+      new BuffItem(5,5,new GoodType) (Vector2D(-400, 600)),
+      new BuffItem(5,5,new GoodType) (Vector2D(800, 800)),
+      new BuffItem(5,5,new GoodType) (Vector2D(1200, 350)),
+      new BuffItem(5,5,new GoodType) (Vector2D(2000, 200)),
+      new BuffItem(5,5,new GoodType) (Vector2D(1800, 250)),
+      new BuffItem(5,5,new GoodType) (Vector2D(2500, 500)))
+  buffs.foreach(this.addComponent(_))
+  
   val character = new Character
   this.addComponent(character)
   this.addComponent(new CameraFollow(mainCamera, () => character.center(),
@@ -39,7 +51,11 @@ class TilesScene extends GameScene {
   this.addComponent(new ScrollingBackground(mainCamera, Resources.deepestCitySprite,32,135, 150))
   this.addComponent(new Horizon(mainCamera, new Color(200, 200, 244), Color.GRAY, 300, 40));
   
-  this.addComponent(new Bar[TilesScene]("Cooldown",Color.RED, 20, 20) {
+  this.addComponent(new Bar[TilesScene]("Life",Color.RED, 30, 10) {
+    def getMaxValue = Character.maxHP
+    def getCurrentValue = character.life
+  })
+  this.addComponent(new Bar[TilesScene]("Cooldown",Color.BLUE, 30, 30) {
     def getMaxValue = (Character.firingStateTime * 100).toInt
     def getCurrentValue = (character.cooldownElapsed * 100).toInt
   })

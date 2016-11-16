@@ -13,7 +13,9 @@ import ar.pablitar.vainilla.commons.math.Vector2D
 object Resources {
   val tileSet = TileSet.fromFile("tileset.png", 63, 63, 1)
   val spriteSheet = Sprite.fromImage("spritesheet.png")
-
+  val goodFruit = Sprite.fromImage("good-fruit.png").scale(0.1)
+  val badFruit = Sprite.fromImage("bad-fruit.png").scale(0.1)
+  
   implicit class SpriteExtensions(s: Sprite) {
 
     def offset: Vector2D = (s.getX, s.getY)

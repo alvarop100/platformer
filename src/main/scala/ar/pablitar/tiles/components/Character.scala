@@ -17,6 +17,7 @@ import ar.pablitar.tiles.appearances.CharacterAppearance
 
 object Character {
   val firingStateTime = 0.3
+  val maxHP = 100
 }
 
 class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene] with Oriented {
@@ -95,6 +96,20 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
       false
     }
   }
+  def checkCollisionWith(buff: BuffItem, state: DeltaState){
+    val afterPosition = this.positionAfterSpeed(state)
+    if ( //Rango horizontal
+    this.bottomRight().x1 > buff.topLeft().x1 && this.bottomLeft().x1 < buff.topRight().x1 &&
+      //Colisión vertical
+      ((!buff.puntoEstaDetras(this.position) && buff.puntoEstaDetras(afterPosition))
+        || buff.pared.puntoInterno.x2 == this.position.x2)) {
+
+      this.speed.x2 = 0
+      this.setY(buff.pared.puntoInterno.x2)
+      this.characterState.grounded(this)
+      buff.die
+    } 
+  }
 
   def checkCollisionWithFloors(state: DeltaState) = {
     if (!this.getScene.floors.exists(this.checkCollisionWith(_, state))) {
@@ -111,6 +126,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   val fireCooldownTime = 0.1
   var cooldownElapsed = Character.firingStateTime
+  var life = Character.maxHP
 
   def fireIfCooledDown() = {
     if (cooldownElapsed >= fireCooldownTime) {
