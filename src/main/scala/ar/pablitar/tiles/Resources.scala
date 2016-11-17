@@ -18,12 +18,12 @@ object Resources {
   val badFruit = Sprite.fromImage("bad-fruit.png").scale(0.05)
   val poke = Sprite.fromImage("poke.png").scale(0.3)
   val death = Sprite.fromImage("death.png").scale(0.1)
- /* val goodItem = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("item-good.mp3"))
-  val hit = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("danio2.mp3"))
+  val goodItem = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("item-good.wav"))
+  val hit = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("danio2.wav"))
   val deathSound = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("gameover.wav"))
   val pikachu = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("pikachu.wav"))
   val loop = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("loop-principal.wav"))
-   */
+   
   implicit class SpriteExtensions(s: Sprite) {
 
     def offset: Vector2D = (s.getX, s.getY)

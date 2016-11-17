@@ -49,8 +49,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
     this.getAppearance.update(state.getDelta)
 
     if (this.getY > 4000) {
-      this.speed = (0, 0)
-      this.position = (0, 0)
+      die()
     }
   }
 
@@ -111,7 +110,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
   def ruduceLife(dmg: Int, buff : BuffItem){
     life-=dmg
     getScene.addComponent(new AttackFeedback(Hit(Attack(buff,this),5,true)))
-    //val soundPlay = Resources.hit.play()
+    val soundPlay = Resources.hit.play()
   }
   def incrementLife(points: Int, buff : BuffItem){
     life+=points
@@ -119,16 +118,20 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
       life=maxHP
     }
     getScene.addComponent(new AttackFeedback(Hit(Attack(buff,this),5,false)))
-    // val soundPlay = Resources.goodItem.play()
+     val soundPlay = Resources.goodItem.play()
      
     
   }
   def die(){
     life =0
-    //val soundPlay = Resources.deathSound.play()
+    val soundPlay = Resources.deathSound.play()
+    this.speed = (0, 0)
+      this.position = (0, 0)
+      life=maxHP
+   getScene.addBuffs()   
   }
   def pokeStatus(){
-    //val soundPlay = Resources.pikachu.play()
+    val soundPlay = Resources.pikachu.play()
     life = maxHP
     getScene.removeBadBuffs()
     

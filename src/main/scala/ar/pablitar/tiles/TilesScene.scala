@@ -21,10 +21,11 @@ import ar.pablitar.tiles.components.GoodType
 import ar.pablitar.tiles.components.BadType
 import ar.pablitar.tiles.components.PokemonType
 import ar.pablitar.tiles.components.DeathType
+import java.util.ArrayList
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
-  //val soundPlay = Resources.loop.play()
+  val soundPlay = Resources.loop.play()
   val floors = ArrayBuffer(
     new Floor(15, 3)(Vector2D(-300, 500)),
     new Floor(15, 1)(Vector2D(800, 500)),
@@ -32,7 +33,7 @@ class TilesScene extends GameScene {
     new Floor(15, 1)(Vector2D(1700, 50)),
     new Floor(15, 1)(Vector2D(1500, 150)))
   floors.foreach(this.addComponent(_))
-  val buffs = ArrayBuffer(
+   val buffs = ArrayBuffer(
       new BuffItem(new GoodType) (Vector2D(250, 480)),
       new BuffItem(new BadType) (Vector2D(1150, 480)),
       new BuffItem(new GoodType) (Vector2D(1550, 480)),
@@ -41,7 +42,7 @@ class TilesScene extends GameScene {
       new BuffItem(new DeathType) (Vector2D(2450, 30)),
       new BuffItem(new GoodType) (Vector2D(1750, 130)),
       new BuffItem(new PokemonType) (Vector2D(1400, 230)))
-  buffs.foreach(this.addComponent(_))
+ buffs.foreach(this.addComponent(_))
   
   val character = new Character
   this.addComponent(character)
@@ -70,6 +71,18 @@ class TilesScene extends GameScene {
     var bads = buffs.filter { _.isBad }
     bads.foreach{_.die}
     
+  }
+  def addBuffs(){
+    
+      buffs.+=(new BuffItem(new GoodType) (Vector2D(250, 480)))
+      buffs.+=(new BuffItem(new BadType) (Vector2D(1150, 480)))
+      buffs.+=(new BuffItem(new GoodType) (Vector2D(1550, 480)))
+      buffs.+=(new BuffItem(new GoodType) (Vector2D(1050, 230)))
+      buffs.+=(new BuffItem(new BadType) (Vector2D(1950, 30)))
+      buffs.+=(new BuffItem(new DeathType) (Vector2D(2450, 30)))
+      buffs.+=(new BuffItem(new GoodType) (Vector2D(1750, 130)))
+      buffs.+=(new BuffItem(new PokemonType) (Vector2D(1400, 230)))
+     buffs.foreach(this.addComponent(_))
   }
   def addFloor(floor: Floor) = {
     this.addComponent(floor)
