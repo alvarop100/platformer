@@ -9,13 +9,21 @@ import ar.pablitar.vainilla.appearances.worldspace.WorldSpaceAnimation
 import ar.pablitar.vainilla.commons.math.Orientation
 import ar.pablitar.tiles.components.Character
 import ar.pablitar.vainilla.commons.math.Vector2D
+import com.uqbar.vainilla.sound.SoundBuilder
 
 object Resources {
   val tileSet = TileSet.fromFile("tileset.png", 63, 63, 1)
   val spriteSheet = Sprite.fromImage("spritesheet.png")
-  val goodFruit = Sprite.fromImage("good-fruit.png").scale(0.1)
-  val badFruit = Sprite.fromImage("bad-fruit.png").scale(0.1)
-  
+  val goodFruit = Sprite.fromImage("good-fruit.png").scale(0.05)
+  val badFruit = Sprite.fromImage("bad-fruit.png").scale(0.05)
+  val poke = Sprite.fromImage("poke.png").scale(0.3)
+  val death = Sprite.fromImage("death.png").scale(0.1)
+ /* val goodItem = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("item-good.mp3"))
+  val hit = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("danio2.mp3"))
+  val deathSound = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("gameover.wav"))
+  val pikachu = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("pikachu.wav"))
+  val loop = new SoundBuilder().buildSound(this.getClass().getClassLoader().getResourceAsStream("loop-principal.wav"))
+   */
   implicit class SpriteExtensions(s: Sprite) {
 
     def offset: Vector2D = (s.getX, s.getY)

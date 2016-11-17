@@ -14,6 +14,10 @@ import ar.pablitar.vainilla.appearances.worldspace.Rectangle
 import java.awt.Color
 import com.uqbar.vainilla.GameComponent
 import ar.pablitar.tiles.appearances.CharacterAppearance
+import com.uqbar.vainilla.sound.SoundPlayer
+import com.uqbar.vainilla.sound.SoundBuilder
+
+
 
 object Character {
   val firingStateTime = 0.3
@@ -38,6 +42,7 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
 
   override def update(state: DeltaState) = {
     this.checkCollisionWithFloors(state)
+    checkCollisionWithBuffs(state)
     cooldownElapsed = (cooldownElapsed + state.getDelta).min(firingStateTime)
     this.checkKeys(state)
     this.characterState.update(this, state)
@@ -97,20 +102,40 @@ class Character(implicit val camera: Camera) extends SpeedyComponent[TilesScene]
     }
   }
   def checkCollisionWith(buff: BuffItem, state: DeltaState){
-    val afterPosition = this.positionAfterSpeed(state)
-    if ( //Rango horizontal
-    this.bottomRight().x1 > buff.topLeft().x1 && this.bottomLeft().x1 < buff.topRight().x1 &&
-      //Colisión vertical
-      ((!buff.puntoEstaDetras(this.position) && buff.puntoEstaDetras(afterPosition))
-        || buff.pared.puntoInterno.x2 == this.position.x2)) {
-
-      this.speed.x2 = 0
-      this.setY(buff.pared.puntoInterno.x2)
-      this.characterState.grounded(this)
+    
+    if ( buff.collideWIthChar(this)) {
+      buff.takeEffectOn(this) 
       buff.die
     } 
   }
-
+  def ruduceLife(dmg: Int, buff : BuffItem){
+    life-=dmg
+    getScene.addComponent(new AttackFeedback(Hit(Attack(buff,this),5,true)))
+    //val soundPlay = Resources.hit.play()
+  }
+  def incrementLife(points: Int, buff : BuffItem){
+    life+=points
+    if(life> maxHP){
+      life=maxHP
+    }
+    getScene.addComponent(new AttackFeedback(Hit(Attack(buff,this),5,false)))
+    // val soundPlay = Resources.goodItem.play()
+     
+    
+  }
+  def die(){
+    life =0
+    //val soundPlay = Resources.deathSound.play()
+  }
+  def pokeStatus(){
+    //val soundPlay = Resources.pikachu.play()
+    life = maxHP
+    getScene.removeBadBuffs()
+    
+  }
+  def checkCollisionWithBuffs(state: DeltaState){
+    this.getScene.buffs.foreach(this.checkCollisionWith(_, state))
+  }
   def checkCollisionWithFloors(state: DeltaState) = {
     if (!this.getScene.floors.exists(this.checkCollisionWith(_, state))) {
       this.characterState.falling(this)

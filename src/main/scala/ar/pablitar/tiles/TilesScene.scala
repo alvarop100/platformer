@@ -19,9 +19,12 @@ import ar.pablitar.vainilla.commons.components.Bar
 import ar.pablitar.tiles.components.BuffItem
 import ar.pablitar.tiles.components.GoodType
 import ar.pablitar.tiles.components.BadType
+import ar.pablitar.tiles.components.PokemonType
+import ar.pablitar.tiles.components.DeathType
 
 class TilesScene extends GameScene {
   implicit val mainCamera = new Camera
+  //val soundPlay = Resources.loop.play()
   val floors = ArrayBuffer(
     new Floor(15, 3)(Vector2D(-300, 500)),
     new Floor(15, 1)(Vector2D(800, 500)),
@@ -30,12 +33,14 @@ class TilesScene extends GameScene {
     new Floor(15, 1)(Vector2D(1500, 150)))
   floors.foreach(this.addComponent(_))
   val buffs = ArrayBuffer(
-      new BuffItem(5,5,new GoodType) (Vector2D(-400, 600)),
-      new BuffItem(5,5,new GoodType) (Vector2D(800, 800)),
-      new BuffItem(5,5,new GoodType) (Vector2D(1200, 350)),
-      new BuffItem(5,5,new GoodType) (Vector2D(2000, 200)),
-      new BuffItem(5,5,new GoodType) (Vector2D(1800, 250)),
-      new BuffItem(5,5,new GoodType) (Vector2D(2500, 500)))
+      new BuffItem(new GoodType) (Vector2D(250, 480)),
+      new BuffItem(new BadType) (Vector2D(1150, 480)),
+      new BuffItem(new GoodType) (Vector2D(1550, 480)),
+      new BuffItem(new GoodType) (Vector2D(1050, 230)),
+      new BuffItem(new BadType) (Vector2D(1950, 30)),
+      new BuffItem(new DeathType) (Vector2D(2450, 30)),
+      new BuffItem(new GoodType) (Vector2D(1750, 130)),
+      new BuffItem(new PokemonType) (Vector2D(1400, 230)))
   buffs.foreach(this.addComponent(_))
   
   val character = new Character
@@ -60,17 +65,12 @@ class TilesScene extends GameScene {
     def getCurrentValue = (character.cooldownElapsed * 100).toInt
   })
   
-//  val sky = new GameComponent()
-//  sky.setAppearance(new Rectangle(new Color(200, 200, 244), TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT))
-//  sky.setZ(-1000)
-//  this.addComponent(sky)
-//  
-//  val earth = new GameComponent()
-//  earth.setAppearance(new Rectangle(Color.GRAY, TilesApp.DISPLAY_WIDTH, TilesApp.DISPLAY_HEIGHT))
-//  earth.setZ(-999)
-//  earth.setY(TilesApp.DISPLAY_HEIGHT * 0.7)
-//  this.addComponent(earth)
   
+  def removeBadBuffs(){
+    var bads = buffs.filter { _.isBad }
+    bads.foreach{_.die}
+    
+  }
   def addFloor(floor: Floor) = {
     this.addComponent(floor)
     floors += floor
